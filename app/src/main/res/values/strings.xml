@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">FunStore</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login">LOGIN</string>
+    <string name="signup">REGISTER</string>
+    <string name="signinTosignup">Don\'t Have an Account ? SIGN UP</string>
+    <string name="signupTosignin"> I have an already account, SIGN IN</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="discounted_products">Discounted Products</string>
+    <string name="all_products">All Products</string>
+
+</resources>
