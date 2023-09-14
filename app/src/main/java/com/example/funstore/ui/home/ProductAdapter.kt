@@ -54,4 +54,5 @@ class ProductAdapter (
     interface ProductListener {
         fun onProductClick(id: Int)
     }
+
 }

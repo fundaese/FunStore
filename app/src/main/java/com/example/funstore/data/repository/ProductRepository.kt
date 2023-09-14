@@ -1,27 +1,34 @@
 package com.example.funstore.data.repository
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.funstore.data.model.GetProductDetailResponse
 import com.example.funstore.data.model.GetProductsResponse
 import com.example.funstore.data.model.Product
 import com.example.funstore.data.source.remote.ProductService
 import kotlinx.coroutines.Dispatchers
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class ProductRepository(private val productService: ProductService) {
+class ProductRepository @Inject constructor(
+        private val productService: ProductService
+    ) {
     val productsLiveData = MutableLiveData<List<Product>?>()
     val salesProductsLiveData = MutableLiveData<List<Product>?>()
     val errorMessageLiveData = MutableLiveData<String>()
     val productsDetailLiveData = MutableLiveData<Product?>()
     val loadingLiveData = MutableLiveData<Boolean>()
 
-    fun getProducts() {
+    suspend fun getProducts(): Response<GetProductsResponse> {
         loadingLiveData.value = true
-        productService.getProducts("funstore").enqueue(object : Callback<GetProductsResponse> {
-            override fun onResponse(call: Call<GetProductsResponse>, response: Response<GetProductsResponse>) {
+        return try {
+            val response = productService.getProducts("funstore")
+
+            if (response.isSuccessful) {
                 val result = response.body()?.products
 
                 if (result.isNullOrEmpty().not()) {
@@ -29,22 +36,26 @@ class ProductRepository(private val productService: ProductService) {
                 } else {
                     productsLiveData.value = null
                 }
-
-                loadingLiveData.value = false
+            } else {
+                errorMessageLiveData.value = "Response error: ${response.code()}"
             }
 
-            override fun onFailure(call: Call<GetProductsResponse>, t: Throwable) {
-                errorMessageLiveData.value = t.message.orEmpty()
-                loadingLiveData.value = false
-                Log.e("GetProducts", t.message.orEmpty())
-            }
-        })
+            loadingLiveData.value = false
+            response
+        } catch (t: Throwable) {
+            errorMessageLiveData.value = t.message.orEmpty()
+            loadingLiveData.value = false
+            Log.e("GetProducts", t.message.orEmpty())
+            Response.error(500, ResponseBody.create(null, ""))
+        }
     }
 
-    fun getSaleProducts() {
+    suspend fun getSaleProducts(): Response<GetProductsResponse> {
         loadingLiveData.value = true
-        productService.getSaleProducts("funstore").enqueue(object : Callback<GetProductsResponse> {
-            override fun onResponse(call: Call<GetProductsResponse>, response: Response<GetProductsResponse>) {
+        return try {
+            val response = productService.getSaleProducts("funstore")
+
+            if (response.isSuccessful) {
                 val result = response.body()?.products
 
                 if (result.isNullOrEmpty().not()) {
@@ -52,43 +63,73 @@ class ProductRepository(private val productService: ProductService) {
                 } else {
                     salesProductsLiveData.value = null
                 }
-
-                loadingLiveData.value = false
+            } else {
+                errorMessageLiveData.value = "Response error: ${response.code()}"
             }
 
-            override fun onFailure(call: Call<GetProductsResponse>, t: Throwable) {
-                errorMessageLiveData.value = t.message.orEmpty()
-                loadingLiveData.value = false
-                Log.e("GetProducts", t.message.orEmpty())
-            }
-        })
+            loadingLiveData.value = false
+            response
+        } catch (t: Throwable) {
+            errorMessageLiveData.value = t.message.orEmpty()
+            loadingLiveData.value = false
+            Log.e("GetSaleProducts", t.message.orEmpty())
+            Response.error(500, ResponseBody.create(null, ""))
+        }
     }
 
-   suspend fun getProductsDetail(id:Int) {
+    suspend fun getProductsByCategory(category: String): Response<GetProductsResponse> {
+        loadingLiveData.value = true
+        return try {
+            val response = productService.getProductsByCategory("funstore", category)
+
+            if (response.isSuccessful) {
+                val result = response.body()?.products
+
+                if (result.isNullOrEmpty().not()) {
+                    productsLiveData.value = result
+                } else {
+                    productsLiveData.value = null
+                }
+            } else {
+                errorMessageLiveData.value = "Response error: ${response.code()}"
+            }
+
+            loadingLiveData.value = false
+            response
+        } catch (t: Throwable) {
+            errorMessageLiveData.value = t.message.orEmpty()
+            loadingLiveData.value = false
+            Log.e("GetProductsByCategory", t.message.orEmpty())
+            Response.error(500, ResponseBody.create(null, ""))
+        }
+    }
+
+    suspend fun getProductsDetail(id: Int): Response<GetProductDetailResponse> {
         loadingLiveData.value = true
 
-        productService.getProductDetail(id).enqueue(object :
-            Callback<GetProductDetailResponse> {
-            override fun onResponse(
-                call: Call<GetProductDetailResponse>,
-                response: Response<GetProductDetailResponse>
-            ) {
+        return try {
+            val response = productService.getProductDetail("funstore",id)
+
+            if (response.isSuccessful) {
                 val result = response.body()?.product
 
                 if (result != null) {
-                    productsDetailLiveData.value = response.body()?.product
+                    productsDetailLiveData.value = result
                 } else {
                     productsDetailLiveData.value = null
                 }
-
-                loadingLiveData.value = false
+            } else {
+                errorMessageLiveData.value = "Response error: ${response.code()}"
             }
 
-            override fun onFailure(call: Call<GetProductDetailResponse>, t: Throwable) {
-                errorMessageLiveData.value = t.message.orEmpty()
-                loadingLiveData.value = false
-                Log.e("GetProducts", t.message.orEmpty())
-            }
-        })
+            loadingLiveData.value = false
+            response
+        } catch (t: Throwable) {
+            errorMessageLiveData.value = t.message.orEmpty()
+            loadingLiveData.value = false
+            Log.e("GetProductsDetail", t.message.orEmpty())
+            Response.error(500, ResponseBody.create(null, ""))
+        }
     }
+
 }

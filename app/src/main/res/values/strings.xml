@@ -10,5 +10,8 @@
     <string name="email">Email</string>
     <string name="discounted_products">Discounted Products</string>
     <string name="all_products">All Products</string>
+    <string name="adult">Adult</string>
+    <string name="kid">Kid</string>
+    <string name="all">All</string>
 
 </resources>

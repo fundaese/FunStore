@@ -5,7 +5,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
+import androidx.navigation.fragment.findNavController
 import com.example.funstore.R
 import com.example.funstore.common.viewBinding
 import com.example.funstore.data.model.Product
@@ -34,13 +34,26 @@ class HomeFragment : Fragment(R.layout.fragment_home), ProductAdapter.ProductLis
         with(binding) {
             rvAllProducts.adapter = productAdapter
             rvDiscountedProducts.adapter = salesProductAdapter
+            radioGroup.setOnCheckedChangeListener { group, checkedId ->
+                if (checkedId == R.id.rb_all) {
+                    viewModel.getProducts()
+                } else {
+                    val category = when (checkedId) {
+                        R.id.rb_adult -> "adult"
+                        R.id.rb_kid -> "kid"
+                        else -> "all"
+                    }
+                    viewModel.getProductsByCategory(category)
+                }
+            }
         }
+
+        viewModel.getProducts()
 
         product?.saleState.let {
             viewModel.getSaleProducts()
         }
 
-        viewModel.getProducts()
         observeData()
     }
 
@@ -70,8 +83,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), ProductAdapter.ProductLis
         }
     }
 
-
     override fun onProductClick(id: Int) {
-        TODO("Not yet implemented")
+        val action = HomeFragmentDirections.actionHomeFragmentToProductDetailFragment(id)
+        findNavController().navigate(action)
     }
 }
