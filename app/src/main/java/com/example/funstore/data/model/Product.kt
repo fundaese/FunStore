@@ -1,5 +1,9 @@
 package com.example.funstore.data.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Product(
     val id: Int?,
     val title: String?,
@@ -13,4 +17,4 @@ data class Product(
     val rate: Double?,
     val count: Int?,
     val saleState: Boolean?
-    )
+    ): Parcelable

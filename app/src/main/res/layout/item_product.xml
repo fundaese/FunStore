@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="250dp"
     android:layout_margin="8dp"
+    android:padding="8dp"
     android:elevation="10dp"
-    android:padding="16dp"
     app:cornerLeftBottom="10dp"
     app:cornerLeftTop="10dp"
     app:cornerRightBottom="10dp"
@@ -14,18 +14,18 @@
 
     <ImageView
         android:id="@+id/img_favorite"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
         android:src="@drawable/love"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/img_product"
-        android:layout_width="150dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -39,8 +39,10 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="TextView"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textColor="#C02727"
-        android:textSize="20sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,8 +56,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:text="TextView"
-        android:maxLines="4"
+        android:maxLines="1"
         android:ellipsize="end"
+        android:textSize="12sp"
         android:textColor="#F4806D"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,9 +68,10 @@
         android:id="@+id/tv_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
+        android:layout_marginStart="50dp"
         android:text="TextView"
         android:textColor="#F4806D"
+        android:textSize="10sp"
         app:layout_constraintStart_toEndOf="@+id/tv_category"
         app:layout_constraintTop_toTopOf="@+id/tv_category" />
 
@@ -78,6 +82,20 @@
         android:layout_marginTop="16dp"
         android:text="TextView"
         android:textColor="#F4806D"
+        android:textSize="10sp"
         app:layout_constraintStart_toStartOf="@+id/tv_desc"
         app:layout_constraintTop_toBottomOf="@+id/tv_desc" />
+
+    <TextView
+        android:id="@+id/tv_sale_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:text="TextView"
+        android:textSize="10sp"
+        android:textColor="@color/yellow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_price"
+        app:layout_constraintTop_toBottomOf="@+id/tv_price" />
 </com.tistory.zladnrms.roundablelayout.RoundableLayout>

@@ -1,5 +1,6 @@
 package com.example.funstore.ui.detail
 
+import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -56,9 +57,19 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
                 tvTitle.text = product.title
                 tvDesc.text = product.description
                 tvCategory.text = product.category
-                tvPrice.text = "Fiyat: ${product.price} ₺"
                 ivProduct.loadImage(product.imageOne)
                 ratingBar.rating = scaledRating / 20.0f
+
+                if (product.saleState == true) {
+                    tvDetailSalePrice.isVisible = true
+                    tvDetailSalePrice.text = "${product.salePrice} ₺"
+                    tvPrice.text = "${product.price} ₺"
+                    tvPrice.paintFlags = tvPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                } else {
+                    tvPrice.text = "${product.price} ₺"
+                    tvDetailSalePrice.isVisible = false
+                }
+
             } else {
                 Snackbar.make(requireView(), "Product Not Found", 1000).show()
             }

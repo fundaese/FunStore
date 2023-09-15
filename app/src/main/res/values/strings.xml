@@ -13,5 +13,10 @@
     <string name="adult">Adult</string>
     <string name="kid">Kid</string>
     <string name="all">All</string>
+    <string name="favorites">Favorites</string>
+    <string name="cart">Cart</string>
+    <string name="search">Search</string>
+    <string name="home">Home</string>
+    <string name="my_favorites">My Favorites</string>
 
 </resources>

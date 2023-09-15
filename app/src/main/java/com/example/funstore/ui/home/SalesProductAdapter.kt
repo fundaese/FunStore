@@ -1,7 +1,9 @@
 package com.example.funstore.ui.home
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +35,16 @@ class SalesProductAdapter (
             tvPrice.text = "${product.price} ₺"
 
             imgProduct.loadImage(product.imageOne)
+
+            if (product.saleState == true) {
+                tvSalePrice.isVisible = true
+                tvSalePrice.text = "${product.salePrice} ₺"
+                tvPrice.text = "${product.price} ₺"
+                tvPrice.paintFlags = tvPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            } else {
+                tvPrice.text = "${product.price} ₺"
+                tvSalePrice.isVisible = false
+            }
 
             root.setOnClickListener {
                 productListener.onProductClick(product.id ?: 1)

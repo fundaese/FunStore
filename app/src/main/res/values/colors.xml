@@ -6,5 +6,6 @@
     <color name="yellow">#ffc93c</color>
     <color name="start_color">#ffc1c8</color>
     <color name="end_color">#ffe3b0</color>
+    <color name="red">#eb2632</color>
     <color name="button_background_color">#66bfbf</color>
 </resources>

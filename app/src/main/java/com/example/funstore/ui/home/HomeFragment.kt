@@ -8,7 +8,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.funstore.R
 import com.example.funstore.common.viewBinding
-import com.example.funstore.data.model.Product
 import com.example.funstore.databinding.FragmentHomeBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -22,7 +21,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), ProductAdapter.ProductLis
     private var bottomNavigationView: BottomNavigationView? = null
     private val productAdapter by lazy { ProductAdapter(this) }
     private val viewModel by viewModels<HomeViewModel>()
-    private val product: Product? = null
     private val salesProductAdapter by lazy { SalesProductAdapter(this) }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,10 +47,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), ProductAdapter.ProductLis
         }
 
         viewModel.getProducts()
-
-        product?.saleState.let {
-            viewModel.getSaleProducts()
-        }
+        viewModel.getSaleProducts()
 
         observeData()
     }
@@ -86,5 +81,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), ProductAdapter.ProductLis
     override fun onProductClick(id: Int) {
         val action = HomeFragmentDirections.actionHomeFragmentToProductDetailFragment(id)
         findNavController().navigate(action)
+    }
+
+    override fun onFavoriteClick(id: Int) {
+
     }
 }
