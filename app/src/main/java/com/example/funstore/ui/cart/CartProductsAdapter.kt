@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.funstore.common.loadImage
 import com.example.funstore.data.model.ProductUI
 import com.example.funstore.databinding.ItemCartProductBinding
+import okhttp3.internal.notifyAll
 
 class CartProductsAdapter(
     private val cartProductListener: CartProductListener
@@ -37,7 +38,7 @@ class CartProductsAdapter(
             }
 
             ivDelete.setOnClickListener {
-                cartProductListener.onDeleteClick(product)
+                cartProductListener.onDeleteClick(product.id)
             }
         }
     }
@@ -54,6 +55,6 @@ class CartProductsAdapter(
 
     interface CartProductListener {
         fun onProductClick(id: Int)
-        fun onDeleteClick(product: ProductUI)
+        fun onDeleteClick(id: Int)
     }
 }

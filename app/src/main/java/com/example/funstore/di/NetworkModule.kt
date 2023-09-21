@@ -52,6 +52,6 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideBookService(retrofit: Retrofit) = retrofit.create<ProductService>()
+    fun provideService(retrofit: Retrofit) = retrofit.create<ProductService>()
 
 }

@@ -3,12 +3,10 @@ package com.example.funstore.ui.detail
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.example.funstore.common.Resource
-import com.example.funstore.data.model.Product
+import com.example.funstore.data.model.AddToCartRequest
 import com.example.funstore.data.model.ProductUI
 import com.example.funstore.data.repository.ProductRepository
-import com.example.funstore.ui.home.HomeState
 import com.example.funstore.ui.viewmodel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -40,9 +38,9 @@ class ProductDetailViewModel @Inject constructor(
         }
     }
 
-    fun addProductToCart(product: ProductUI) {
+    fun addProductToCart(addToCartRequest: AddToCartRequest) {
         launch {
-            productRepository.addProductToCart(product)
+            productRepository.addProductToCart(addToCartRequest)
         }
     }
 }

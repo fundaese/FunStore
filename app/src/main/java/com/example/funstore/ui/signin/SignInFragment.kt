@@ -1,22 +1,18 @@
 package com.example.funstore.ui.signin
 
 import android.os.Bundle
-import android.text.Html
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.funstore.R
 import com.example.funstore.common.viewBinding
 import com.example.funstore.databinding.FragmentSignInBinding
-import com.example.funstore.ui.signup.SignUpFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignInFragment : Fragment(R.layout.fragment_sign_in) {
 
     private val binding by viewBinding(FragmentSignInBinding::bind)
@@ -26,11 +22,11 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        auth = FirebaseAuth.getInstance() // auth öğesini başlatın
+        auth = FirebaseAuth.getInstance()
 
         // Bottom Navigation Visibility
         bottomNavigationView = getActivity()?.findViewById(R.id.bottomNavigationView);
-        bottomNavigationView?.setVisibility(View.VISIBLE);
+        bottomNavigationView?.setVisibility(View.GONE);
 
         with(binding) {
             tvDontHaveAnAccount.setOnClickListener {
@@ -45,7 +41,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
                 if (email.isNotEmpty() && password.isNotEmpty()) {
                     signIn(email, password)
                 } else {
-                    Snackbar.make(requireView(), "Mail or password can not be empty", 1000).show()
+                    Snackbar.make(requireView(), "Fill in all the blanks", 1000).show()
                 }
             }
         }

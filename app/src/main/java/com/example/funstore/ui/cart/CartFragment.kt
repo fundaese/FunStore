@@ -9,9 +9,16 @@ import com.example.funstore.R
 import com.example.funstore.common.gone
 import com.example.funstore.common.viewBinding
 import com.example.funstore.common.visible
+import com.example.funstore.data.model.AddToCartRequest
+import com.example.funstore.data.model.ClearCartRequest
+import com.example.funstore.data.model.DeleteFromCartRequest
 import com.example.funstore.data.model.ProductUI
 import com.example.funstore.databinding.FragmentCartBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class CartFragment : Fragment(R.layout.fragment_cart), CartProductsAdapter.CartProductListener {
@@ -22,12 +29,29 @@ class CartFragment : Fragment(R.layout.fragment_cart), CartProductsAdapter.CartP
 
     private val cartProductsAdapter by lazy { CartProductsAdapter(this) }
 
+    private lateinit var auth: FirebaseAuth
+
+    private lateinit var userId: String
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        auth = Firebase.auth
+        userId = auth.currentUser!!.uid
+        val request = ClearCartRequest(userId)
 
-        viewModel.getCartProducts()
+        viewModel.getCartProducts(userId)
 
-        binding.rvCartProducts.adapter = cartProductsAdapter
+        with (binding) {
+            rvCartProducts.adapter = cartProductsAdapter
+
+            btnClear.setOnClickListener {
+                viewModel.clearProduct(request)
+                viewModel.getCartProducts(userId)
+            }
+
+            btnBuy.setOnClickListener {
+            }
+        }
 
         observeData()
     }
@@ -42,6 +66,13 @@ class CartFragment : Fragment(R.layout.fragment_cart), CartProductsAdapter.CartP
                 is CartState.Data -> {
                     cartProductsAdapter.submitList(state.products)
                     progressBar.gone()
+
+                    var totalAmount = 0.0
+                    for (product in state.products) {
+                        totalAmount += product.price
+                    }
+
+                    tvTotal.text = "${totalAmount} ₺"
                 }
 
                 is CartState.Error -> {
@@ -56,7 +87,9 @@ class CartFragment : Fragment(R.layout.fragment_cart), CartProductsAdapter.CartP
         findNavController().navigate(action)
     }
 
-    override fun onDeleteClick(product: ProductUI) {
-        viewModel.deleteProduct(product)
+    override fun onDeleteClick(id: Int) {
+        val request = DeleteFromCartRequest(id)
+        viewModel.deleteProduct(request)
+        viewModel.getCartProducts(userId)
     }
 }

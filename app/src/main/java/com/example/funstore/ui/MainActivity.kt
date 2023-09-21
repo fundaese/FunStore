@@ -18,12 +18,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
 
         with(binding) {
             val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
             NavigationUI.setupWithNavController(bottomNavigationView, navHostFragment.navController)
         }
+
+        setContentView(binding.root)
     }
 }
 

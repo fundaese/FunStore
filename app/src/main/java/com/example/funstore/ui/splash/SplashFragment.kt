@@ -15,12 +15,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.funstore.R
 import com.example.funstore.databinding.FragmentSplashBinding
+import com.example.funstore.ui.MainActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class SplashFragment : Fragment() {

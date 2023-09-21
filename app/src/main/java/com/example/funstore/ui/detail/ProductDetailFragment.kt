@@ -11,10 +11,14 @@ import androidx.navigation.fragment.navArgs
 import com.example.funstore.R
 import com.example.funstore.common.loadImage
 import com.example.funstore.common.viewBinding
+import com.example.funstore.data.model.AddToCartRequest
 import com.example.funstore.data.model.ProductUI
 import com.example.funstore.databinding.FragmentProductDetailBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,12 +32,19 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
 
     private var bottomNavigationView: BottomNavigationView? = null
 
+    private lateinit var auth: FirebaseAuth
+
     var product: ProductUI ?= null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        auth = Firebase.auth
+        val userId = auth.currentUser!!.uid
+
         viewModel.getProductsDetail(args.productId)
+
+        val request = AddToCartRequest(userId, args.productId)
 
         // Bottom Navigation Visibility
         bottomNavigationView = getActivity()?.findViewById(R.id.bottomNavigationView);
@@ -45,13 +56,10 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
             }
 
             btnAddCart.setOnClickListener {
-                product?.let {
-                    it1 -> viewModel.addProductToCart(it1)
-                    Snackbar.make(requireView(), "The product has been added to your cart", 1000).show()
-                }
+                viewModel.addProductToCart(request)
+                Snackbar.make(requireView(), "The product has been added to your cart", 1000).show()
             }
         }
-
         observeData()
     }
 

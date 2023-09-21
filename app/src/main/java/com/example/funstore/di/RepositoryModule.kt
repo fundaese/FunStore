@@ -15,7 +15,7 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideBookRepository(productService: ProductService, productDao: ProductDao) : ProductRepository =
+    fun provideRepository(productService: ProductService, productDao: ProductDao) : ProductRepository =
         ProductRepository(productService, productDao)
 
 }

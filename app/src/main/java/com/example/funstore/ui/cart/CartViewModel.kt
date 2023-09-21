@@ -6,8 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.funstore.common.Resource
+import com.example.funstore.data.model.ClearCartRequest
+import com.example.funstore.data.model.DeleteFromCartRequest
 import com.example.funstore.data.model.ProductUI
 import com.example.funstore.data.repository.ProductRepository
+import com.example.funstore.ui.favorite.FavState
 import com.example.funstore.ui.viewmodel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -22,10 +25,10 @@ class CartViewModel @Inject constructor(
     val cartState: LiveData<CartState>
         get() = _cartState
 
-    fun getCartProducts() {
-        viewModelScope.launch {
+    fun getCartProducts(userId: String) {
+        launch {
             _cartState.value = CartState.Loading
-            when (val result = productRepository.getCartProducts()) {
+            when (val result = productRepository.getCartProduct(userId)) {
                 is Resource.Success -> {
                     _cartState.value = CartState.Data(result.data)
                 }
@@ -37,9 +40,15 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun deleteProduct(product: ProductUI) {
+    fun deleteProduct(request: DeleteFromCartRequest) {
         launch {
-            productRepository.deleteProductFromCart(product)
+            productRepository.deleteProductFromCart(request)
+        }
+    }
+
+    fun clearProduct(request: ClearCartRequest) {
+        launch {
+            productRepository.clearProductFromCart(request)
         }
     }
 }

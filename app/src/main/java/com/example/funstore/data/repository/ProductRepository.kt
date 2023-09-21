@@ -1,6 +1,10 @@
 package com.example.funstore.data.repository
 
 import com.example.funstore.common.Resource
+import com.example.funstore.data.model.AddToCartRequest
+import com.example.funstore.data.model.CRUDResponse
+import com.example.funstore.data.model.ClearCartRequest
+import com.example.funstore.data.model.DeleteFromCartRequest
 import com.example.funstore.data.model.ProductUI
 import com.example.funstore.data.source.local.ProductDao
 import com.example.funstore.data.source.remote.ProductService
@@ -56,15 +60,11 @@ class ProductRepository @Inject constructor(
         }
     }
 
-    suspend fun addProductToCart(product: ProductUI) {
-        productDao.addProduct(product.mapToProductEntity())
-    }
-
-    suspend fun deleteProductFromCart(product: ProductUI) {
+    suspend fun deleteProductFromFav(product: ProductUI) {
         productDao.deleteProduct(product.mapToProductEntity())
     }
 
-    suspend fun getCartProducts(): Resource<List<ProductUI>> {
+    suspend fun getFavProducts(): Resource<List<ProductUI>> {
         return try {
             Resource.Success(productDao.getProducts().map {
                 it.mapToProductUI()
@@ -78,17 +78,24 @@ class ProductRepository @Inject constructor(
         productDao.addProduct(product.mapToProductEntity())
     }
 
-    suspend fun deleteProductFromFav(product: ProductUI) {
-        productDao.deleteProduct(product.mapToProductEntity())
+    suspend fun addProductToCart(addToCartRequest: AddToCartRequest): CRUDResponse {
+        return productService.addProductToCart(addToCartRequest)
     }
 
-    suspend fun getFavProducts(): Resource<List<ProductUI>> {
+    suspend fun getCartProduct(userId: String): Resource<List<ProductUI>> {
         return try {
-            Resource.Success(productDao.getProducts().map {
-                it.mapToProductUI()
-            })
+            val response = productService.getCartProducts(userId)
+            Resource.Success(response.products?.map { it.mapToProductUI() }.orEmpty())
         } catch (e: Exception) {
             Resource.Error(e)
         }
+    }
+
+    suspend fun deleteProductFromCart(request: DeleteFromCartRequest): CRUDResponse {
+        return productService.deleteProductFromCart(request)
+    }
+
+    suspend fun clearProductFromCart(request: ClearCartRequest): CRUDResponse {
+        return productService.clearProductFromCart(request)
     }
 }

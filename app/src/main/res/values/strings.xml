@@ -14,9 +14,19 @@
     <string name="kid">Kid</string>
     <string name="all">All</string>
     <string name="favorites">Favorites</string>
+    <string name="favoritesUpper">FAVORITES</string>
+    <string name="cartUpper">CART</string>
+    <string name="payment">PAYMENT INFO</string>
     <string name="cart">Cart</string>
     <string name="search">Search</string>
     <string name="home">Home</string>
     <string name="my_favorites">My Favorites</string>
+    <string name="user_name">User Name</string>
+    <string name="log_out">LOG OUT</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="address">Address:</string>
+    <string name="clear_all">CLEAR ALL</string>
+    <string name="total_amount">Total Amount:</string>
 
 </resources>

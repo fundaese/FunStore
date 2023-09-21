@@ -1,8 +1,9 @@
 package com.example.funstore.ui.home
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
-import androidx.core.view.isVisible
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -23,6 +24,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), ProductAdapter.ProductLis
     private val productAdapter by lazy { ProductAdapter(this) }
     private val viewModel by viewModels<HomeViewModel>()
     private val salesProductAdapter by lazy { SalesProductAdapter(this) }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -45,6 +48,20 @@ class HomeFragment : Fragment(R.layout.fragment_home), ProductAdapter.ProductLis
                     viewModel.getProductsByCategory(category)
                 }
             }
+
+            toolbar.setOnMenuItemClickListener (object : MenuItem.OnMenuItemClickListener,
+                Toolbar.OnMenuItemClickListener {
+                override fun onMenuItemClick(item: MenuItem): Boolean {
+                    when (item.itemId) {
+                        R.id.action_profile -> {
+                            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment())
+                            return true
+                        }
+                    }
+
+                    return false
+                }
+            })
         }
 
         viewModel.getProducts()

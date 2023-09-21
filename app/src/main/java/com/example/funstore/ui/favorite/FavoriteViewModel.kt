@@ -25,7 +25,7 @@ class FavoriteViewModel @Inject constructor(
     fun getFavProducts() {
         launch {
             _favState.value = FavState.Loading
-            when (val result = productRepository.getCartProducts()) {
+            when (val result = productRepository.getFavProducts()) {
                 is Resource.Success -> {
                     _favState.value = FavState.Data(result.data)
                 }
@@ -39,7 +39,7 @@ class FavoriteViewModel @Inject constructor(
 
     fun deleteProduct(product: ProductUI) {
         launch {
-            productRepository.deleteProductFromCart(product)
+            productRepository.deleteProductFromFav(product)
         }
     }
 }

@@ -12,7 +12,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
 
     private val binding by viewBinding(FragmentSignUpBinding::bind)
@@ -30,7 +32,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
 
         // Bottom Navigation Visibility
         bottomNavigationView = getActivity()?.findViewById(R.id.bottomNavigationView);
-        bottomNavigationView?.setVisibility(View.VISIBLE);
+        bottomNavigationView?.setVisibility(View.GONE);
 
         with(binding) {
             btnSignup.setOnClickListener {
@@ -40,7 +42,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
                 if (email.isNotEmpty() && password.isNotEmpty()) {
                     signUp(email, password)
                 } else {
-                    //show snackbar
+                    Snackbar.make(requireView(), "Fill in all the blanks", 1000).show()
                 }
             }
 
