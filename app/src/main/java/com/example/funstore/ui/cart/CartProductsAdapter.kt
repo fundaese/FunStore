@@ -1,4 +1,4 @@
-package com.example.funstore.ui.favorite
+package com.example.funstore.ui.cart
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,23 +7,23 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.funstore.common.loadImage
 import com.example.funstore.data.model.ProductUI
-import com.example.funstore.databinding.ItemFavoriteBinding
+import com.example.funstore.databinding.ItemCartProductBinding
 
-class FavoriteAdapter(
-    private val favProductListener: FavProductListener
-) : ListAdapter<ProductUI, FavoriteAdapter.FavProductViewHolder>(ProductDiffCallBack()) {
+class CartProductsAdapter(
+    private val cartProductListener: CartProductListener
+) : ListAdapter<ProductUI, CartProductsAdapter.CartProductViewHolder>(ProductDiffCallBack()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavProductViewHolder =
-        FavProductViewHolder(
-            ItemFavoriteBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            favProductListener
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartProductViewHolder =
+        CartProductViewHolder(
+            ItemCartProductBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            cartProductListener
         )
 
-    override fun onBindViewHolder(holder: FavProductViewHolder, position: Int) = holder.bind(getItem(position))
+    override fun onBindViewHolder(holder: CartProductViewHolder, position: Int) = holder.bind(getItem(position))
 
-    class FavProductViewHolder(
-        private val binding: ItemFavoriteBinding,
-        private val favProductListener: FavProductListener
+    class CartProductViewHolder(
+        private val binding: ItemCartProductBinding,
+        private val cartProductListener: CartProductListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(product: ProductUI) = with(binding) {
@@ -33,11 +33,11 @@ class FavoriteAdapter(
             ivProduct.loadImage(product.imageOne)
 
             root.setOnClickListener {
-                favProductListener.onProductClick(product.id)
+                cartProductListener.onProductClick(product.id)
             }
 
             ivDelete.setOnClickListener {
-                favProductListener.onDeleteClick(product)
+                cartProductListener.onDeleteClick(product)
             }
         }
     }
@@ -52,7 +52,7 @@ class FavoriteAdapter(
         }
     }
 
-    interface FavProductListener {
+    interface CartProductListener {
         fun onProductClick(id: Int)
         fun onDeleteClick(product: ProductUI)
     }

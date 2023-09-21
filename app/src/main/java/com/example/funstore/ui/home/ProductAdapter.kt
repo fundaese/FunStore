@@ -9,11 +9,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.funstore.common.loadImage
 import com.example.funstore.data.model.Product
+import com.example.funstore.data.model.ProductUI
 import com.example.funstore.databinding.ItemProductBinding
 
 class ProductAdapter (
     private val productListener: ProductListener
-) : ListAdapter<Product, ProductAdapter.ProductViewHolder>(ProductDiffCallBack()) {
+) : ListAdapter<ProductUI, ProductAdapter.ProductViewHolder>(ProductDiffCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder =
         ProductViewHolder(
@@ -29,7 +30,7 @@ class ProductAdapter (
         private val productListener: ProductListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(product: Product) = with(binding) {
+        fun bind(product: ProductUI) = with(binding) {
             tvTitle.text = product.title
             tvDesc.text = product.description
             tvCategory.text = product.category
@@ -47,28 +48,30 @@ class ProductAdapter (
             }
 
             imgFavorite.setOnClickListener {
-                productListener.onFavoriteClick(product.id ?: 1)
+                productListener.onFavoriteClick(product)
             }
 
             root.setOnClickListener {
-                productListener.onProductClick(product.id ?: 1)
+                productListener.onProductClick(product.id)
             }
+
+
         }
     }
 
-    class ProductDiffCallBack : DiffUtil.ItemCallback<Product>() {
-        override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
+    class ProductDiffCallBack : DiffUtil.ItemCallback<ProductUI>() {
+        override fun areItemsTheSame(oldItem: ProductUI, newItem: ProductUI): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
+        override fun areContentsTheSame(oldItem: ProductUI, newItem: ProductUI): Boolean {
             return oldItem == newItem
         }
     }
 
     interface ProductListener {
         fun onProductClick(id: Int)
-        fun onFavoriteClick(id: Int)
+        fun onFavoriteClick(product: ProductUI)
     }
 
 }

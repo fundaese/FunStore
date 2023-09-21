@@ -29,6 +29,13 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(chuckerInterceptor: ChuckerInterceptor) = OkHttpClient.Builder().apply {
+        addInterceptor { chain ->
+            val originalRequest = chain.request()
+            val modifiedRequest = originalRequest.newBuilder()
+                .addHeader("store", "funstore") // Store adını burada ayarlayabilirsiniz.
+                .build()
+            chain.proceed(modifiedRequest)
+        }
         addInterceptor(chuckerInterceptor)
         readTimeout(TIMEOUT, TimeUnit.SECONDS)
         connectTimeout(TIMEOUT, TimeUnit.SECONDS)

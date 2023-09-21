@@ -9,11 +9,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.funstore.common.loadImage
 import com.example.funstore.data.model.Product
+import com.example.funstore.data.model.ProductUI
 import com.example.funstore.databinding.ItemSalesProductBinding
 
 class SalesProductAdapter (
     private val productListener: ProductListener
-) : ListAdapter<Product, SalesProductAdapter.SalesProductViewHolder>(ProductDiffCallBack()) {
+) : ListAdapter<ProductUI, SalesProductAdapter.SalesProductViewHolder>(ProductDiffCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SalesProductViewHolder =
         SalesProductViewHolder(
@@ -29,7 +30,7 @@ class SalesProductAdapter (
         private val productListener: ProductListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(product: Product) = with(binding) {
+        fun bind(product: ProductUI) = with(binding) {
             tvTitle.text = product.title
             tvCategory.text = product.category
             tvPrice.text = "${product.price} ₺"
@@ -52,12 +53,12 @@ class SalesProductAdapter (
         }
     }
 
-    class ProductDiffCallBack : DiffUtil.ItemCallback<Product>() {
-        override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
+    class ProductDiffCallBack : DiffUtil.ItemCallback<ProductUI>() {
+        override fun areItemsTheSame(oldItem: ProductUI, newItem: ProductUI): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
+        override fun areContentsTheSame(oldItem: ProductUI, newItem: ProductUI): Boolean {
             return oldItem == newItem
         }
     }

@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/bg_gradient"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient">
 
     <TextView
         android:id="@+id/tv_discounted_products"
@@ -63,37 +63,38 @@
             android:id="@+id/rb_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:checked="true"
             android:fontFamily="serif-monospace"
             android:text="@string/all"
             android:textColor="@color/black"
             android:textSize="12sp"
-            android:textStyle="bold"
-            android:layout_marginEnd="8dp"
-            android:checked="true"/>
+            android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/rb_adult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:fontFamily="serif-monospace"
             android:text="@string/adult"
             android:textColor="@color/black"
             android:textSize="12sp"
-            android:textStyle="bold"
-            android:layout_marginEnd="8dp"/>
+            android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/rb_kid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:fontFamily="serif-monospace"
             android:text="@string/kid"
             android:textColor="@color/black"
             android:textSize="12sp"
-            android:textStyle="bold"
-            android:layout_marginStart="8dp"/>
+            android:textStyle="bold" />
 
     </RadioGroup>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_all_products"
         android:layout_width="0dp"
@@ -119,5 +120,32 @@
         app:layout_constraintEnd_toEndOf="@+id/rv_all_products"
         app:layout_constraintStart_toStartOf="@+id/rv_all_products"
         app:layout_constraintTop_toTopOf="@+id/rv_all_products" />
+
+    <ImageView
+        android:id="@+id/iv_error"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:srcCompat="@drawable/ic_error" />
+
+    <TextView
+        android:id="@+id/tv_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textColor="#B11616"
+        android:textSize="24sp"
+        android:textStyle="italic"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_error" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

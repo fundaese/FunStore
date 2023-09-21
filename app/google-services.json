@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "909889682128",
+    "project_id": "funstore-6e361",
+    "storage_bucket": "funstore-6e361.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:909889682128:android:bfba58053988e2c956bcd5",
+        "android_client_info": {
+          "package_name": "com.example.funstore"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD45Zh_5GBJKF1hPqqmiudX3qBTCovHkgs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

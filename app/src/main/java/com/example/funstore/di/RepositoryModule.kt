@@ -1,6 +1,7 @@
 package com.example.funstore.di
 
 import com.example.funstore.data.repository.ProductRepository
+import com.example.funstore.data.source.local.ProductDao
 import com.example.funstore.data.source.remote.ProductService
 import dagger.Module
 import dagger.Provides
@@ -14,7 +15,7 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideBookRepository(productService: ProductService) : ProductRepository =
-        ProductRepository(productService)
+    fun provideBookRepository(productService: ProductService, productDao: ProductDao) : ProductRepository =
+        ProductRepository(productService, productDao)
 
 }

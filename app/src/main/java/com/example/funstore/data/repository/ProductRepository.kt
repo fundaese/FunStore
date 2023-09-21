@@ -1,135 +1,94 @@
 package com.example.funstore.data.repository
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.example.funstore.data.model.GetProductDetailResponse
-import com.example.funstore.data.model.GetProductsResponse
-import com.example.funstore.data.model.Product
+import com.example.funstore.common.Resource
+import com.example.funstore.data.model.ProductUI
+import com.example.funstore.data.source.local.ProductDao
 import com.example.funstore.data.source.remote.ProductService
-import kotlinx.coroutines.Dispatchers
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 class ProductRepository @Inject constructor(
-        private val productService: ProductService
-    ) {
-    val productsLiveData = MutableLiveData<List<Product>?>()
-    val salesProductsLiveData = MutableLiveData<List<Product>?>()
-    val errorMessageLiveData = MutableLiveData<String>()
-    val productsDetailLiveData = MutableLiveData<Product?>()
-    val loadingLiveData = MutableLiveData<Boolean>()
+        private val productService: ProductService,
+        private val productDao: ProductDao,
+) {
 
-    suspend fun getProducts(): Response<GetProductsResponse> {
-        loadingLiveData.value = true
+    suspend fun getProducts(): Resource<List<ProductUI>> {
         return try {
-            val response = productService.getProducts("funstore")
-
-            if (response.isSuccessful) {
-                val result = response.body()?.products
-
-                if (result.isNullOrEmpty().not()) {
-                    productsLiveData.value = result
-                } else {
-                    productsLiveData.value = null
-                }
-            } else {
-                errorMessageLiveData.value = "Response error: ${response.code()}"
-            }
-
-            loadingLiveData.value = false
-            response
-        } catch (t: Throwable) {
-            errorMessageLiveData.value = t.message.orEmpty()
-            loadingLiveData.value = false
-            Log.e("GetProducts", t.message.orEmpty())
-            Response.error(500, ResponseBody.create(null, ""))
+            Resource.Success(productService.getProducts().products?.map { it.mapToProductUI() }.orEmpty())
+        } catch (e: Exception) {
+            Resource.Error(e)
         }
     }
 
-    suspend fun getSaleProducts(): Response<GetProductsResponse> {
-        loadingLiveData.value = true
+    suspend fun getSaleProducts(): Resource<List<ProductUI>> {
         return try {
-            val response = productService.getSaleProducts("funstore")
-
-            if (response.isSuccessful) {
-                val result = response.body()?.products
-
-                if (result.isNullOrEmpty().not()) {
-                    salesProductsLiveData.value = result
-                } else {
-                    salesProductsLiveData.value = null
-                }
-            } else {
-                errorMessageLiveData.value = "Response error: ${response.code()}"
-            }
-
-            loadingLiveData.value = false
-            response
-        } catch (t: Throwable) {
-            errorMessageLiveData.value = t.message.orEmpty()
-            loadingLiveData.value = false
-            Log.e("GetSaleProducts", t.message.orEmpty())
-            Response.error(500, ResponseBody.create(null, ""))
+            Resource.Success(productService.getSaleProducts().products?.map { it.mapToProductUI() }.orEmpty())
+        } catch (e: Exception) {
+            Resource.Error(e)
         }
     }
 
-    suspend fun getProductsByCategory(category: String): Response<GetProductsResponse> {
-        loadingLiveData.value = true
+    suspend fun getProductsByCategory(category: String): Resource<List<ProductUI>>  {
         return try {
-            val response = productService.getProductsByCategory("funstore", category)
-
-            if (response.isSuccessful) {
-                val result = response.body()?.products
-
-                if (result.isNullOrEmpty().not()) {
-                    productsLiveData.value = result
-                } else {
-                    productsLiveData.value = null
-                }
-            } else {
-                errorMessageLiveData.value = "Response error: ${response.code()}"
-            }
-
-            loadingLiveData.value = false
-            response
-        } catch (t: Throwable) {
-            errorMessageLiveData.value = t.message.orEmpty()
-            loadingLiveData.value = false
-            Log.e("GetProductsByCategory", t.message.orEmpty())
-            Response.error(500, ResponseBody.create(null, ""))
+            Resource.Success(productService.getProductsByCategory(category).products?.map { it.mapToProductUI() }.orEmpty())
+        } catch (e: Exception) {
+            Resource.Error(e)
         }
     }
 
-    suspend fun getProductsDetail(id: Int): Response<GetProductDetailResponse> {
-        loadingLiveData.value = true
-
+    suspend fun getProductsDetail(id: Int): Resource<ProductUI> {
         return try {
-            val response = productService.getProductDetail("funstore",id)
-
-            if (response.isSuccessful) {
-                val result = response.body()?.product
-
-                if (result != null) {
-                    productsDetailLiveData.value = result
-                } else {
-                    productsDetailLiveData.value = null
-                }
-            } else {
-                errorMessageLiveData.value = "Response error: ${response.code()}"
+            productService.getProductDetail(id).product?.let {
+                Resource.Success(it.mapToProductUI())
+            } ?: kotlin.run {
+                Resource.Error(Exception("Product not found"))
             }
-
-            loadingLiveData.value = false
-            response
-        } catch (t: Throwable) {
-            errorMessageLiveData.value = t.message.orEmpty()
-            loadingLiveData.value = false
-            Log.e("GetProductsDetail", t.message.orEmpty())
-            Response.error(500, ResponseBody.create(null, ""))
+        } catch (e: Exception) {
+            Resource.Error(e)
         }
     }
 
+    suspend fun getSearchProduct(query: String): Resource<List<ProductUI>> {
+        return try {
+            val response = productService.getSearchProduct(query)
+            Resource.Success(response.products?.map { it.mapToProductUI() }.orEmpty())
+        } catch (e: Exception) {
+            Resource.Error(e)
+        }
+    }
+
+    suspend fun addProductToCart(product: ProductUI) {
+        productDao.addProduct(product.mapToProductEntity())
+    }
+
+    suspend fun deleteProductFromCart(product: ProductUI) {
+        productDao.deleteProduct(product.mapToProductEntity())
+    }
+
+    suspend fun getCartProducts(): Resource<List<ProductUI>> {
+        return try {
+            Resource.Success(productDao.getProducts().map {
+                it.mapToProductUI()
+            })
+        } catch (e: Exception) {
+            Resource.Error(e)
+        }
+    }
+
+    suspend fun addProductToFav(product: ProductUI) {
+        productDao.addProduct(product.mapToProductEntity())
+    }
+
+    suspend fun deleteProductFromFav(product: ProductUI) {
+        productDao.deleteProduct(product.mapToProductEntity())
+    }
+
+    suspend fun getFavProducts(): Resource<List<ProductUI>> {
+        return try {
+            Resource.Success(productDao.getProducts().map {
+                it.mapToProductUI()
+            })
+        } catch (e: Exception) {
+            Resource.Error(e)
+        }
+    }
 }

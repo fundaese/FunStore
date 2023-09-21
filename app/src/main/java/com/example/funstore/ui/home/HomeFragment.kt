@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.funstore.R
 import com.example.funstore.common.viewBinding
+import com.example.funstore.data.model.ProductUI
 import com.example.funstore.databinding.FragmentHomeBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -52,29 +53,45 @@ class HomeFragment : Fragment(R.layout.fragment_home), ProductAdapter.ProductLis
         observeData()
     }
 
-    private fun observeData() {
-        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
-            binding.progressBar2.isVisible = it
-        }
+    private fun observeData() = with(binding) {
+        viewModel.homeState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                HomeState.Loading -> {
+                    progressBar2.visibility = View.VISIBLE
+                }
 
-        viewModel.productLiveData.observe(viewLifecycleOwner) { list ->
-            if(list != null) {
-                productAdapter.submitList(list)
-            } else {
-                Snackbar.make(requireView(), "Empty List", 1000).show()
+                is HomeState.Data -> {
+                    progressBar2.visibility = View.GONE
+                    productAdapter.submitList(state.productsResponse)
+                }
+
+                is HomeState.Error -> {
+                    tvError.setText(state.throwable.message.orEmpty())
+                    progressBar2.visibility = View.GONE
+                    rvAllProducts.visibility = View.GONE
+                    ivError.visibility = View.VISIBLE
+                    tvError.visibility = View.VISIBLE
+                    Snackbar.make(requireView(), state.throwable.message.orEmpty(), 1000).show()
+                }
             }
         }
 
-        viewModel.salesProductLiveData.observe(viewLifecycleOwner) { list ->
-            if(list != null) {
-                salesProductAdapter.submitList(list)
-            } else {
-                Snackbar.make(requireView(), "Empty List", 1000).show()
-            }
-        }
+        viewModel.salesState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                SalesState.Loading -> {
+                    progressBar2.visibility = View.VISIBLE
+                }
 
-        viewModel.errorMessageLiveData.observe(viewLifecycleOwner) {
-            Snackbar.make(requireView(), it, 1000).show()
+                is SalesState.Data -> {
+                    progressBar2.visibility = View.GONE
+                    salesProductAdapter.submitList(state.productsResponse)
+                }
+
+                is SalesState.Error -> {
+                    progressBar2.visibility = View.GONE
+                    Snackbar.make(requireView(), state.throwable.message.orEmpty(), 1000).show()
+                }
+            }
         }
     }
 
@@ -83,7 +100,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), ProductAdapter.ProductLis
         findNavController().navigate(action)
     }
 
-    override fun onFavoriteClick(id: Int) {
-
+    override fun onFavoriteClick(product: ProductUI) {
+        viewModel.addProductToFav(product)
+        Snackbar.make(requireView(), "Product added to your favorites list", Snackbar.LENGTH_SHORT).show()
     }
 }
