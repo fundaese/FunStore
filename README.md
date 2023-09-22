@@ -19,15 +19,15 @@ This application is an e-commerce application written in Kotlin and prepared wit
 In practice there is registration, login, product and categories, product search, adding to cart, favorite products list, payment page, results page and profile screen information.
 
 **Features**:
-*MVVM
-*Hilt
-*Coroutines
-*Navigation Component
-*Retrofit
-*Room & Shared Preferences
-*FirebaseAuth
-*Glide
-*Chucker
+* MVVM
+* Hilt
+* Coroutines
+* Navigation Component
+* Retrofit
+* Room & Shared Preferences
+* FirebaseAuth
+* Glide
+* Chucker
 
 ## Pages
 
