@@ -10,12 +10,7 @@ import com.example.funstore.common.gone
 import com.example.funstore.common.viewBinding
 import com.example.funstore.common.visible
 import com.example.funstore.data.model.ProductUI
-import com.example.funstore.databinding.FragmentCartBinding
 import com.example.funstore.databinding.FragmentFavoriteBinding
-import com.example.funstore.ui.cart.CartFragmentDirections
-import com.example.funstore.ui.cart.CartProductsAdapter
-import com.example.funstore.ui.cart.CartState
-import com.example.funstore.ui.cart.CartViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

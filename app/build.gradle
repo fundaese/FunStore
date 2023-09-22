@@ -85,4 +85,9 @@ dependencies {
     implementation "androidx.room:room-runtime:2.5.2"
     kapt "androidx.room:room-compiler:2.5.2"
     implementation "androidx.room:room-ktx:2.5.2"
+
+
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.22'
+
+
 }

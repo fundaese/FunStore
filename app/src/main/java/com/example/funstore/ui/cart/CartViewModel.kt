@@ -3,14 +3,11 @@ package com.example.funstore.ui.cart
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.funstore.common.Resource
 import com.example.funstore.data.model.ClearCartRequest
 import com.example.funstore.data.model.DeleteFromCartRequest
 import com.example.funstore.data.model.ProductUI
 import com.example.funstore.data.repository.ProductRepository
-import com.example.funstore.ui.favorite.FavState
 import com.example.funstore.ui.viewmodel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

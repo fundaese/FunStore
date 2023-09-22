@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.funstore.common.loadImage
-import com.example.funstore.data.model.Product
 import com.example.funstore.data.model.ProductUI
 import com.example.funstore.databinding.ItemSalesProductBinding
 

@@ -28,5 +28,11 @@
     <string name="address">Address:</string>
     <string name="clear_all">CLEAR ALL</string>
     <string name="total_amount">Total Amount:</string>
+    <string name="card_name_surname">Name and Surname on the card</string>
+    <string name="card_number">Card Number</string>
+    <string name="card_date">Ay / Yıl</string>
+    <string name="cvc">CVC</string>
+    <string name="pay">PAY</string>
+    <string name="return_home_page">Return Home Page</string>
 
 </resources>

@@ -3,7 +3,6 @@ package com.example.funstore.ui.search
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.example.funstore.common.Resource
 import com.example.funstore.data.model.ProductUI
 import com.example.funstore.data.repository.ProductRepository

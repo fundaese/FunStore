@@ -1,13 +1,11 @@
 package com.example.funstore.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.funstore.R
-import com.example.funstore.common.gone
 import com.example.funstore.common.viewBinding
-import com.example.funstore.common.visible
 import com.example.funstore.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 

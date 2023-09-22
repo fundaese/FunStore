@@ -16,9 +16,11 @@
         android:id="@+id/iv_product"
         android:layout_width="64dp"
         android:layout_height="64dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.349"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -57,4 +59,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_delete" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_minus"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/minus"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_price" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_add"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/plus"
+        app:layout_constraintStart_toEndOf="@+id/tv_count"
+        app:layout_constraintTop_toTopOf="@+id/tv_count" />
+
+    <TextView
+        android:id="@+id/tv_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="1"
+        app:layout_constraintStart_toEndOf="@+id/btn_minus"
+        app:layout_constraintTop_toTopOf="@+id/btn_minus" />
+
 </com.tistory.zladnrms.roundablelayout.RoundableLayout>
