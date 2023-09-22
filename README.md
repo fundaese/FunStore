@@ -30,16 +30,16 @@ In practice there is registration, login, product and categories, product search
 *Chucker
 
 ## Pages
-  - [SplasFragment](#splash)
-  - [SignInFragment & SignUpFragment](#signin)
+  - [SplashFragment](#splash)
+  - [SignInFragment & SignUpFragment](#signinfragment & signupfragment)
   - [HomeFragment](#homefragment)
-  - [ProfileFragment](#profile)
-  - [DetailFragment](#detail)
-  - [SearchFragment](#search)
-  - [CartFragment](#cart)
-  - [FavoritesFragment](#favorites)
-  - [PaymentFragment](#payment)
-  - [ResultFragment](#result)
+  - [ProfileFragment](#profilefragment)
+  - [DetailFragment](#detailfragment)
+  - [SearchFragment](#searchfragment)
+  - [CartFragment](#cartfragment)
+  - [FavoritesFragment](#favoritesfragment)
+  - [PaymentFragment](#paymentfragment)
+  - [ResultFragment](#resultfragment)
     
 ### SplashFragment
 ### SignInFragment & SignUpFragment
