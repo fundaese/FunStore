@@ -11,7 +11,7 @@ E-commerce application prepared for the Android Developer Bootcamp held in coope
       </ul>
     </li>
     <li>
-      <a href="#Features">Pages</a>
+      <a href="#Pages">Pages</a>
 </details>
     
 ## About The Project
@@ -30,21 +30,25 @@ In practice there is registration, login, product and categories, product search
 *Chucker
 
 ## Pages
-  - [SplashFragment](#splash)
-  - [SignInFragment & SignUpFragment](#signinfragment & signupfragment)
-  - [HomeFragment](#homefragment)
-  - [ProfileFragment](#profilefragment)
-  - [DetailFragment](#detailfragment)
-  - [SearchFragment](#searchfragment)
-  - [CartFragment](#cartfragment)
-  - [FavoritesFragment](#favoritesfragment)
-  - [PaymentFragment](#paymentfragment)
-  - [ResultFragment](#resultfragment)
-    
+
 ### SplashFragment
+![SplashScreen](https://github.com/fundaese/FunStore/assets/26959557/4278e7af-3a4e-45e5-a0ac-db36c5f47d31)
+
 ### SignInFragment & SignUpFragment
+
+
+https://github.com/fundaese/FunStore/assets/26959557/c3f9b47a-3f98-4bb5-877e-442e7793f54e
+
+
+
 ### HomeFragment
+
+
+https://github.com/fundaese/FunStore/assets/26959557/c069911e-6bcd-45e7-993b-44cb0925fd3a
+
+
 ### ProfileFragment
+
 ### DetailFragment
 ### SearchFragment
 ### CartFragment
