@@ -1,7 +1,9 @@
 package com.example.funstore.ui.favorite
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -11,6 +13,7 @@ import com.example.funstore.common.viewBinding
 import com.example.funstore.common.visible
 import com.example.funstore.data.model.ProductUI
 import com.example.funstore.databinding.FragmentFavoriteBinding
+import com.example.funstore.ui.home.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,6 +33,17 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite), FavoriteAdapter.F
         binding.rvFavorites.adapter = favAdapter
 
         observeData()
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val action = FavoriteFragmentDirections.actionFavoriteFragmentToHomeFragment()
+                findNavController().navigate(action)
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+
+
     }
 
     private fun observeData() = with(binding) {

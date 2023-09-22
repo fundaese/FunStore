@@ -2,6 +2,7 @@ package com.example.funstore.ui.search
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -11,6 +12,7 @@ import com.example.funstore.common.gone
 import com.example.funstore.common.viewBinding
 import com.example.funstore.common.visible
 import com.example.funstore.databinding.FragmentSearchBinding
+import com.example.funstore.ui.favorite.FavoriteFragmentDirections
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -46,6 +48,15 @@ class SearchFragment : Fragment(R.layout.fragment_search), SearchAdapter.SearchP
                 }
             })
         }
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val action = SearchFragmentDirections.actionSearchFragmentToHomeFragment()
+                findNavController().navigate(action)
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
         observeData()
     }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,8 @@ import com.example.funstore.common.visible
 import com.example.funstore.data.model.ClearCartRequest
 import com.example.funstore.data.model.DeleteFromCartRequest
 import com.example.funstore.databinding.FragmentCartBinding
+import com.example.funstore.ui.favorite.FavoriteFragmentDirections
+import com.example.funstore.ui.search.SearchFragmentDirections
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -45,6 +48,14 @@ class CartFragment : Fragment(R.layout.fragment_cart), CartProductsAdapter.CartP
         sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         cartProductsAdapter = CartProductsAdapter(this, sharedPreferences)
 
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val action = CartFragmentDirections.actionCartFragmentToHomeFragment()
+                findNavController().navigate(action)
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
         viewModel.getCartProducts(userId)
 
