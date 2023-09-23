@@ -56,7 +56,7 @@ In practice there is registration, login, product and categories, product search
 ![FavoritesFragmentVideo](https://github.com/fundaese/FunStore/assets/26959557/ea7b363e-e799-40e1-a0aa-23b5065ea05e)
 
 ### PaymentFragment
-![PaymentFragment](https://github.com/fundaese/FunStore/assets/26959557/79d89f0c-dc62-428e-9d4d-eff5ffa1fa90)
+![PaymentFragment](https://github.com/fundaese/FunStore/assets/26959557/3cb31820-f90b-4fce-8b08-d25aa05a6961)
 
 ### ResultFragment
-![ResultFragmentVideo](https://github.com/fundaese/FunStore/assets/26959557/001014a1-0caf-448f-bc57-5a39cd8434ff)
+![ResultFragmentVideo (1)](https://github.com/fundaese/FunStore/assets/26959557/012aca9a-1686-449b-bb2d-648d9c5fd7a7)
