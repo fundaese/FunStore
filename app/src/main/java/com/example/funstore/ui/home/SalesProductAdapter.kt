@@ -46,6 +46,10 @@ class SalesProductAdapter (
                 tvSalePrice.isVisible = false
             }
 
+            imgFavorite.setOnClickListener {
+                productListener.onFavoriteClick(product)
+            }
+
             root.setOnClickListener {
                 productListener.onProductClick(product.id ?: 1)
             }
@@ -64,5 +68,6 @@ class SalesProductAdapter (
 
     interface ProductListener {
         fun onProductClick(id: Int)
+        fun onFavoriteClick(product: ProductUI)
     }
 }
