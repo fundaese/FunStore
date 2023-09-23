@@ -33,6 +33,8 @@
     <string name="card_date">Ay / Yıl</string>
     <string name="cvc">CVC</string>
     <string name="pay">PAY</string>
-    <string name="return_home_page">Return Home Page</string>
+    <string name="return_home_page">Continue Shopping</string>
+    <string name="result_text">Your order has been accepted !</string>
+    <string name="buy">BUY</string>
 
 </resources>

@@ -72,10 +72,12 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_buy"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_clear"
-        android:layout_width="180dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="24dp"
         android:backgroundTint="@color/red"
         android:text="@string/clear_all"
@@ -93,12 +95,14 @@
         app:layout_constraintStart_toEndOf="@+id/tv_amount"
         app:layout_constraintTop_toTopOf="@+id/tv_amount" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_buy"
-        android:layout_width="180dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="BUY"
+        android:text="@string/buy"
         app:layout_constraintBottom_toTopOf="@+id/btn_clear"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

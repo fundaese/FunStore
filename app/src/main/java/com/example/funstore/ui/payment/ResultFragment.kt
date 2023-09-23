@@ -25,7 +25,7 @@ class ResultFragment : Fragment(R.layout.fragment_result) {
 
         with(binding) {
             ivCargo.setImageDrawable(gifImg)
-            textView.setText("Your products have been delivered to the cargo")
+
             btnHome.setOnClickListener {
                 findNavController().navigate(ResultFragmentDirections.actionResultFragmentToHomeFragment())
             }
