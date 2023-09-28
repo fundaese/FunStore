@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -63,8 +64,7 @@ class CartFragment : Fragment(R.layout.fragment_cart), CartProductsAdapter.CartP
             rvCartProducts.adapter = cartProductsAdapter
 
             btnClear.setOnClickListener {
-                viewModel.clearProduct(request)
-                viewModel.getCartProducts(userId)
+                viewModel.clearProduct(request,userId)
 
                 totalAmount = 0.0
 
@@ -92,6 +92,7 @@ class CartFragment : Fragment(R.layout.fragment_cart), CartProductsAdapter.CartP
 
                 is CartState.Data -> {
                     cartProductsAdapter.submitList(state.products)
+                    rvCartProducts.isVisible = state.products.isNotEmpty()
                     progressBar.gone()
 
                     if (state.products.isEmpty()) {
@@ -111,15 +112,7 @@ class CartFragment : Fragment(R.layout.fragment_cart), CartProductsAdapter.CartP
                         btnBuy.visibility = View.VISIBLE
                         tvError.visibility = View.GONE
 
-                        for (product in cartProductsAdapter.currentList) {
-                            val currentCount = sharedPreferences.getInt("count_key_${product.id}", 1)
-                            totalAmount += (product.price * currentCount)
-                        }
-
-
-                        tvTotal.text = "${totalAmount} ₺"
                     }
-
 
                 }
 
@@ -128,6 +121,10 @@ class CartFragment : Fragment(R.layout.fragment_cart), CartProductsAdapter.CartP
                 }
             }
         }
+
+        viewModel.totalAmount.observe(viewLifecycleOwner) {
+            tvTotal.text = "${it} ₺"
+        }
     }
 
     override fun onProductClick(id: Int) {
@@ -135,10 +132,17 @@ class CartFragment : Fragment(R.layout.fragment_cart), CartProductsAdapter.CartP
         findNavController().navigate(action)
     }
 
-    override fun onDeleteClick(id: Int) {
+    override fun onDeleteClick(id: Int, price: Double) {
         val request = DeleteFromCartRequest(id)
-        viewModel.deleteProduct(request)
+        viewModel.deleteProduct(request, price)
         viewModel.getCartProducts(userId)
-        binding.tvTotal.text = "0 ₺"
+    }
+
+    override fun onIncreaseClick(price: Double) {
+        viewModel.onIncreaseClick(price)
+    }
+
+    override fun onDecreaseClick(price: Double) {
+        viewModel.onDecreaseClick(price)
     }
 }

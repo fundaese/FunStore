@@ -49,9 +49,7 @@ class CartProductsAdapter(
             btnAdd.setOnClickListener {
                 if (currentCount == product.count) {
                     tvCount.text = currentCount.toString()
-                    val editor = sharedPreferences.edit()
-                    editor.putInt(sharedPreferencesKey, currentCount)
-                    editor.apply()
+                    cartProductListener.onIncreaseClick(product.price)
                 } else {
                     currentCount += 1
 
@@ -65,8 +63,9 @@ class CartProductsAdapter(
             btnMinus.setOnClickListener {
                 if (currentCount >= 1) {
                     currentCount -= 1
+                    cartProductListener.onDecreaseClick(product.price)
                 } else {
-                    cartProductListener.onDeleteClick(product.id)
+                    cartProductListener.onDeleteClick(product.id, product.price)
                 }
 
                 tvCount.text = currentCount.toString()
@@ -77,7 +76,7 @@ class CartProductsAdapter(
             }
 
             ivDelete.setOnClickListener {
-                cartProductListener.onDeleteClick(product.id)
+                cartProductListener.onDeleteClick(product.id, product.price)
                 currentCount = 0
                 val editor = sharedPreferences.edit()
                 editor.putInt(sharedPreferencesKey, currentCount+1)
@@ -99,6 +98,8 @@ class CartProductsAdapter(
 
     interface CartProductListener {
         fun onProductClick(id: Int)
-        fun onDeleteClick(id: Int)
+        fun onDeleteClick(id: Int, price: Double)
+        fun onIncreaseClick(price: Double)
+        fun onDecreaseClick(price: Double)
     }
 }

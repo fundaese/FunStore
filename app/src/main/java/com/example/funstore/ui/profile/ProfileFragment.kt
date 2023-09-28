@@ -5,10 +5,12 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.funstore.R
 import com.example.funstore.common.viewBinding
 import com.example.funstore.databinding.FragmentProfileBinding
+import com.example.funstore.ui.home.HomeViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -21,6 +23,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private val binding by viewBinding(FragmentProfileBinding::bind)
     private lateinit var auth: FirebaseAuth
     private var bottomNavigationView: BottomNavigationView? = null
+    private val viewModel by viewModels<ProfileViewModel>()
 
     private val sharedPreferencesName = "MyPreferences"
     private val keyGender = "userGender"
@@ -32,18 +35,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
         sharedPreferences = requireContext().getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE)
 
-        // Get gender and avatar from shared preferences
-        val savedGender = sharedPreferences.getString(keyGender, null)
-
-        if (savedGender != null) {
-            if (savedGender == "boy") {
-                binding.rbBoy.isChecked = true
-                binding.ivProfile.setImageResource(R.drawable.avatarboy)
-            } else if (savedGender == "girl") {
-                binding.rbGirl.isChecked = true
-                binding.ivProfile.setImageResource(R.drawable.avatargirl)
-            }
-        }
 
         // Bottom Navigation Visibility
         bottomNavigationView = getActivity()?.findViewById(R.id.bottomNavigationView);
@@ -52,20 +43,31 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         auth = Firebase.auth
 
         with(binding) {
-            ivProfile.setImageResource(R.drawable.avatargirl)
+
+            // Verileri SharedPreferences'ten yükle
+            val savedGender = sharedPreferences.getString(keyGender, null)
+            val savedAvatarResource = sharedPreferences.getInt(keyAvatar, R.drawable.avatargirl)
+
+            if (savedGender != null) {
+                if (savedGender == "boy") {
+                    rbBoy.isChecked = true
+                } else if (savedGender == "girl") {
+                    rbGirl.isChecked = true
+                }
+
+                ivProfile.setImageResource(savedAvatarResource)
+            }
 
             radioGroup.setOnCheckedChangeListener { group, checkedId ->
 
                 when (checkedId) {
                     R.id.rb_boy -> {
                         ivProfile.setImageResource(R.drawable.avatarboy)
-                        saveGender("boy")
-                        saveAvatar(R.drawable.avatarboy)
+                        saveAvatarAndGender(R.drawable.avatarboy, "boy")
                     }
                     R.id.rb_girl -> {
                         ivProfile.setImageResource(R.drawable.avatargirl)
-                        saveAvatar(R.drawable.avatargirl)
-                        saveGender("girl")
+                        saveAvatarAndGender(R.drawable.avatargirl, "girl")
                     }
                 }
             }
@@ -84,6 +86,24 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 auth.signOut()
                 findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToSignInFragment())
             }
+
+            // Observe LiveData for selected gender
+            viewModel.selectedGender.observe(viewLifecycleOwner) { gender ->
+                when (gender) {
+                    "boy" -> {
+                        binding.rbBoy.isChecked = true
+                    }
+
+                    "girl" -> {
+                        binding.rbGirl.isChecked = true
+                    }
+                }
+            }
+
+            // Observe LiveData for avatar resource
+            viewModel.avatarResource.observe(viewLifecycleOwner) { avatarResource ->
+                binding.ivProfile.setImageResource(avatarResource)
+            }
         }
     }
 
@@ -98,6 +118,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         val editor = sharedPreferences.edit()
         editor.putInt(keyAvatar, avatarResource)
         editor.apply()
+    }
+
+    private fun saveAvatarAndGender(avatarResource: Int, gender: String) {
+        viewModel.updateAvatar(avatarResource, gender)
+        saveAvatar(avatarResource)
+        saveGender(gender)
     }
 
 }

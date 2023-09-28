@@ -95,7 +95,12 @@ class ProductRepository @Inject constructor(
         return productService.deleteProductFromCart(request)
     }
 
-    suspend fun clearProductFromCart(request: ClearCartRequest): CRUDResponse {
-        return productService.clearProductFromCart(request)
+    suspend fun clearProductFromCart(request: ClearCartRequest): Resource<CRUDResponse> {
+        return try {
+            val response = productService.clearProductFromCart(request)
+            Resource.Success(response)
+        } catch (e: Exception) {
+            Resource.Error(e)
+        }
     }
 }

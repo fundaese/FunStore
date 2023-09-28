@@ -3,6 +3,7 @@ package com.example.funstore.ui.cart
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.funstore.common.Resource
 import com.example.funstore.data.model.ClearCartRequest
 import com.example.funstore.data.model.DeleteFromCartRequest
@@ -22,12 +23,17 @@ class CartViewModel @Inject constructor(
     val cartState: LiveData<CartState>
         get() = _cartState
 
+    private var _totalAmount = MutableLiveData<Double>()
+    val totalAmount: LiveData<Double>
+        get() = _totalAmount
+
     fun getCartProducts(userId: String) {
         launch {
             _cartState.value = CartState.Loading
             when (val result = productRepository.getCartProduct(userId)) {
                 is Resource.Success -> {
                     _cartState.value = CartState.Data(result.data)
+                    _totalAmount.value = result.data.sumOf { it.price }
                 }
 
                 is Resource.Error -> {
@@ -37,16 +43,34 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun deleteProduct(request: DeleteFromCartRequest) {
+    fun deleteProduct(request: DeleteFromCartRequest, price: Double) {
         launch {
             productRepository.deleteProductFromCart(request)
+            _totalAmount.value = _totalAmount.value?.minus(price)
         }
     }
 
-    fun clearProduct(request: ClearCartRequest) {
+    fun clearProduct(request: ClearCartRequest, userId: String) {
         launch {
-            productRepository.clearProductFromCart(request)
+            when (val result = productRepository.clearProductFromCart(request)) {
+                is Resource.Success -> {
+                    getCartProducts(userId)
+                    _totalAmount.value = 0.0
+                }
+
+                is Resource.Error -> {
+                    _cartState.value = CartState.Error(result.throwable)
+                }
+            }
         }
+    }
+
+    fun onIncreaseClick(price: Double) {
+        _totalAmount.value = _totalAmount.value?.plus(price)
+    }
+
+    fun onDecreaseClick(price: Double) {
+        _totalAmount.value = _totalAmount.value?.minus(price)
     }
 }
 
